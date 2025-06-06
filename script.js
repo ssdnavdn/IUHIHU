@@ -9,6 +9,10 @@ function sendData() {
         message
     };
 
-    Telegram.WebApp.sendData(JSON.stringify(data));
-    Telegram.WebApp.close();
+  if (Telegram && Telegram.WebApp) {
+    Telegram.WebApp.sendData(JSON.stringify(data)); // отправка данных боту
+    Telegram.WebApp.close(); // закрытие WebApp
+  } else {
+    alert("Telegram API не инициализирован.");
+  }
 }
