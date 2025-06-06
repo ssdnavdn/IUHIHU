@@ -12,7 +12,10 @@
   <input type="email" id="email" placeholder="Email"><br>
   <textarea id="message" placeholder="Сообщение"></textarea><br>
   <button onclick="sendData()">Оставить заявку</button>
-      const email = document.getElementById("email").value;
+   <script>
+  function sendData() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
     const message = document.getElementById("message").value;
 
     const data = {
