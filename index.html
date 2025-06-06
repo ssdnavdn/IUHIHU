@@ -12,5 +12,18 @@
   <input type="email" id="email" placeholder="Email"><br>
   <textarea id="message" placeholder="Сообщение"></textarea><br>
   <button onclick="sendData()">Оставить заявку</button>
+      const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    const data = {
+        name,
+        email,
+        message
+    };
+
+    Telegram.WebApp.sendData(JSON.stringify(data));
+    Telegram.WebApp.close();
+}
+</script>
 </body>
 </html>
