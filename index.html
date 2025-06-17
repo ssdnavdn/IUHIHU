@@ -1,32 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Заявка</title>
-  <script src="https://t.me/OlliotBot/deliverypage"></script>
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <title>Сайт с комментариями</title>
+  <script src="https://t.me/ithubhelperbot/comments"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    textarea, input[type="text"] { width: 100%; padding: 10px; margin: 10px 0; }
+    .comment { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    .comment .name { font-weight: bold; }
+    button { padding: 10px 15px; }
+  </style>
 </head>
 <body>
-  <h2>Оставьте заявку</h2>
-  <input type="text" id="name" placeholder="Имя"><br>
-  <input type="email" id="email" placeholder="Email"><br>
-  <textarea id="message" placeholder="Сообщение"></textarea><br>
-  <button onclick="sendData()">Оставить заявку</button>
-   <script>
-  function sendData() {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const message = document.getElementById("message").value;
+  <h1>Как вы относитесь к искусственному интеллекту?</h1>
 
-    const data = {
-        name,
-        email,
-        message
-    };
+  <h2>Оставьте комментарий</h2>
+  <input type="text" id="name" placeholder="Ваше имя" />
+  <textarea id="message" rows="4" placeholder="Ваш комментарий"></textarea>
+  <button onclick="addComment()">Отправить</button>
 
-    Telegram.WebApp.sendData(JSON.stringify(data));
-    Telegram.WebApp.close();
-}
-</script>
+  <h2>Комментарии</h2>
+  <div id="comments"></div>
+
+  <script>
+    function loadComments() {
+      const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+      const commentBox = document.getElementById('comments');
+      commentBox.innerHTML = '';
+      if (comments.length === 0) {
+        commentBox.innerHTML = '<p>Пока нет комментариев.</p>';
+      } else {
+        comments.forEach(comment => {
+          const div = document.createElement('div');
+          div.className = 'comment';
+          div.innerHTML = `<div class="name">${comment.name}</div><div>${comment.text}</div>`;
+          commentBox.appendChild(div);
+        });
+      }
+    }
+
+    function addComment() {
+      const name = document.getElementById('name').value.trim();
+      const text = document.getElementById('message').value.trim();
+      if (!name || !text) return alert('Введите имя и комментарий!');
+      const comment = { name, text };
+      const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+      comments.push(comment);
+      localStorage.setItem('comments', JSON.stringify(comments));
+      document.getElementById('name').value = '';
+      document.getElementById('message').value = '';
+      loadComments();
+    }
+
+    // Загружаем комментарии при открытии страницы
+    window.onload = loadComments;
+  </script>
 </body>
 </html>
